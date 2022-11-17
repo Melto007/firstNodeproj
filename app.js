@@ -11,6 +11,10 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+// Rendering template View engine middleware
+app.set("view engine", "ejs")
+
 const { TOKENSECRETCODE } = process.env
 
 app.get('/', (req, res) => {
@@ -86,6 +90,22 @@ app.post('/login', async (req, res) => {
     }catch(error) {
         return res.status(500).send('Something went wrong please try again later')
     }
+})
+
+app.get('/getForm', (req, res) => {
+    return res.render('getForm')
+})
+
+app.get('/myget', (req, res) => {
+    return res.send(req.query)
+})
+
+app.get('/postForm', (req, res) => {
+    return res.render('postForm')
+})
+
+app.post('/mypost', (req, res) => {
+    return res.send(req.body)
 })
 
 app.get('/dashboard', auth, (req, res) => {
